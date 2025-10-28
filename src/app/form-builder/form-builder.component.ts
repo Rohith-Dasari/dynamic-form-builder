@@ -1,28 +1,74 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 
 @Component({
   selector: 'app-form-builder',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, DynamicFormComponent],
   templateUrl: './form-builder.component.html',
   styleUrl: './form-builder.component.scss'
 })
 export class FormBuilderComponent {
-  formFields: any[] = [];
-  newField: any = { type: 'text', label: '', name: '', options: [] };
+  formFields = signal<any[]>([]);
+  newField: any = { type: 'text', label: '', name: '', options: [], isRequired:false };
+  
+  labelError = '';
+  nameError = '';
+  optionsError = '';
 
   onAddOption(option:string){
-    this.newField.options.push(option)
+    if (option.trim()) {
+      this.newField.options.push(option);
+      this.optionsError = '';
+    }
   }
 
   addField() {
-    this.formFields.push({...this.newField});
-    this.newField = { type: 'text', label: '', name: '', options: [] };
+    this.labelError = '';
+    this.nameError = '';
+    this.optionsError = '';
+
+    let hasError = false;
+
+    if (!this.newField.label?.trim()) {
+      this.labelError = 'Label is required';
+      hasError = true;
+    }
+
+    if (!this.newField.name?.trim()) {
+      this.nameError = 'Name is required';
+      hasError = true;
+    } else {
+      const nameExists = this.formFields().some(field => field.name === this.newField.name.trim());
+      if (nameExists) {
+        this.nameError = 'Name must be unique';
+        hasError = true;
+      }
+    }
+
+    if (this.newField.type === 'dropdown' && this.newField.options.length === 0) {
+      this.optionsError = 'Add at least one option';
+      hasError = true;
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    this.formFields.update(fields => [...fields, {...this.newField}]);
+    this.newField = { type: 'text', label: '', name: '', options: [], isRequired:false };
   }
 
   saveForm() {
-    localStorage.setItem('formConfig', JSON.stringify(this.formFields));
+    localStorage.setItem('formConfig', JSON.stringify(this.formFields()));
     alert('Form saved successfully!');
+  }
+
+  deleteField(index: number) {
+    const field = this.formFields()[index];
+    if (confirm(`Delete field "${field.label || field.name}"?`)) {
+      this.formFields.update(fields => fields.filter((_, i) => i !== index));
+    }
   }
 }

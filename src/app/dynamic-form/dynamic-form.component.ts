@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, input, effect } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -9,23 +9,69 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './dynamic-form.component.scss'
 })
 export class DynamicFormComponent {
-  config: any[] = [];
-  form!: FormGroup;
+  config = input<any[]>([]);  // Using input signal instead of @Input
+  form: FormGroup = new FormGroup({});
+  private currentUserRole: string | null = null;
 
-  ngOnInit() {
-    this.config = JSON.parse(localStorage.getItem('formConfig') || '[]');
-    let formGroupObj: any = {};
+  constructor() {
+    // Get user role once
+    const currentUser = this.getCurrentUser();
+    this.currentUserRole = currentUser?.role || null;
 
-    this.config.forEach(field => {
-      formGroupObj[field.name] = new FormControl('');
+    // Use effect to rebuild form whenever config changes
+    effect(() => {
+      const configValue = this.config();
+      
+      if (this.currentUserRole === 'admin') {
+        // Admin: use config from parent (signal)
+        this.buildForm(configValue);
+      } else {
+        // Customer: use localStorage on first load only
+        const stored = localStorage.getItem('formConfig');
+        const customerConfig = stored ? JSON.parse(stored) : [];
+        this.buildForm(customerConfig);
+      }
     });
+  }
 
-    this.form = new FormGroup(formGroupObj);
+  private getCurrentUser() {
+    const userStr = localStorage.getItem('currentUser');
+    return userStr ? JSON.parse(userStr) : null;
+  }
+
+  private buildForm(configData: any[]) {
+    // Create a completely new FormGroup to avoid stale control references
+    const newFormGroup: any = {};
+
+    if (configData && configData.length > 0) {
+      configData.forEach(field => {
+        const validators = [];
+        
+        // Add required validator if field is required
+        if (field.isRequired) {
+          validators.push(Validators.required);
+        }
+        
+        // Add email validator for email type fields
+        if (field.type === 'email') {
+          validators.push(Validators.email);
+        }
+        
+        const defaultValue = field.type === 'checkbox' ? false : '';
+        newFormGroup[field.name] = new FormControl(defaultValue, validators);
+      });
+    }
+
+    this.form = new FormGroup(newFormGroup);
   }
 
   submit() {
-    console.log(this.form.value);
-    alert(JSON.stringify(this.form.value, null, 2));
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      alert('Please fill all required fields correctly.');
+      return;
+    }
+    
+    alert('Form Submitted Successfully!\n\n' + JSON.stringify(this.form.value, null, 2));
   }
-
 }

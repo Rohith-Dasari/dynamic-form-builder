@@ -1,8 +1,15 @@
-<nav style="display:flex; gap:1rem; margin-bottom:20px;">
-  <a routerLink="/builder" routerLinkActive="active">Form Builder</a>
-  <a routerLink="/form" routerLinkActive="active">Render Form</a>
-</nav>
+@if (isAuthenticated()) {
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a routerLink="/" class="logo">DLB</a>
+    </div>
+    <div class="navbar-right">
+      <span class="user-email">{{ userEmail() }}</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </nav>
 
-<hr>
+  <hr>
+}
 
 <router-outlet></router-outlet>

@@ -1,31 +1,87 @@
-<h2>Form Builder</h2>
+<div class="container">
+  <div class="left">
+    <h2>Form Builder</h2>
 
+    <label class="label">Choose input type</label>
+    <select [(ngModel)]="newField.type" class="control">
+      <option value="text">Text</option>
+      <option value="dropdown">Dropdown</option>
+      <option value="checkbox">Checkbox</option>
+      <option value="email">Email</option>
+      <option value="password">Password</option>
+    </select>
 
-<select [(ngModel)]="newField.type">
-  <option value="text">Text</option>
-  <option value="dropdown">Dropdown</option>
-  <option value="checkbox">Checkbox</option>
-</select>
+    <label class="label">Enter label value</label>
+    <input class="control" type="text" placeholder="Label" [(ngModel)]="newField.label">
+    @if (labelError) {
+      <div class="error-message">{{ labelError }}</div>
+    }
 
-<input type="text" placeholder="Label" [(ngModel)]="newField.label">
-<input type="text" placeholder="Name" [(ngModel)]="newField.name">
+    <label class="label">Enter name value</label>
+    <input class="control" type="text" placeholder="Name" [(ngModel)]="newField.name">
+    @if (nameError) {
+      <div class="error-message">{{ nameError }}</div>
+    }
 
-@if (newField.type === 'dropdown') {
-  <div>
-    <input type="text" #optionInput placeholder="Option">
-    <button (click)="onAddOption(optionInput.value); optionInput.value=''">Add Option</button>
+    @if (newField.type === 'dropdown') {
+      <div class="dropdown-block">
+        <label class="label">Enter Options</label>
+        <div class="option-row">
+          <input type="text" #optionInput placeholder="Option" class="control small" />
+          <button (click)="onAddOption(optionInput.value); optionInput.value=''" class="btn">Add Option</button>
+        </div>
 
-    <ul>
-      @for (opt of newField.options; track opt) {
-        <li>{{opt}}</li>
-      }
-    </ul>
+        @if (newField.options?.length) {
+          <p class="muted">Options added:</p>
+          <ul class="option-list">
+            @for (opt of newField.options; track $index) {
+              <li>{{ opt }}</li>
+            }
+          </ul>
+        }
+        @if (optionsError) {
+          <div class="error-message">{{ optionsError }}</div>
+        }
+      </div>
+    }
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="required" [(ngModel)]="newField.isRequired" />
+      <label for="required">required</label>
+    </div>
+
+    <div class="actions">
+      <button (click)="addField()" class="btn primary">Add Field</button>
+      <button (click)="saveForm()" class="btn">Save Form</button>
+    </div>
+
+    <hr/>
+
+    <h3>Form Fields ({{ formFields().length }})</h3>
+
+@if (formFields().length) {
+  <div class="cards-container">
+    @for (field of formFields(); track $index) {
+      <div class="field-card">
+
+        <span class="type-badge">{{ field.type }}</span>
+
+        <span class="field-label">Label: {{ field.label || '(No Label)' }} </span>
+        
+
+        <button class="delete-btn" (click)="deleteField($index)" title="Delete field">
+          delete
+        </button>
+      </div>
+    }
   </div>
+} @else {
+  <p>No fields added yet.</p>
 }
 
-<button (click)="addField()">Add Field</button>
-<button (click)="saveForm()">Save Form</button>
 
-<hr>
+  </div>
 
-<pre>{{ formFields | json }}</pre>
+    <app-dynamic-form [config]="formFields()"></app-dynamic-form>
+
+</div>
