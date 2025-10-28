@@ -1,0 +1,20 @@
+<h2>Generated Form</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <div *ngFor="let field of config">
+
+    <label>{{field.label}}</label>
+
+    
+    <input *ngIf="field.type === 'text'" type="text" [formControlName]="field.name">
+
+    <select *ngIf="field.type === 'dropdown'" [formControlName]="field.name">
+      <option *ngFor="let opt of field.options">{{opt}}</option>
+    </select>
+
+    <input *ngIf="field.type === 'checkbox'" type="checkbox" [formControlName]="field.name">
+
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
