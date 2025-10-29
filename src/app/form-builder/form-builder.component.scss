@@ -52,16 +52,6 @@
   border-color: #2563eb;
 }
 
-.json {
-  max-height: 280px;
-  overflow: auto;
-  background: #f6f8fa;
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #eaecef;
-  white-space: pre-wrap;
-}
-
 @media (max-width: 900px) {
   .container { grid-template-columns: 1fr; }
 }

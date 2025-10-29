@@ -2,7 +2,7 @@
   <div class="left">
     <h2>Form Builder</h2>
 
-    <label class="label">Choose input type</label>
+    <label class="label">{{constants.DropdownMessage}}</label>
     <select [(ngModel)]="newField.type" class="control">
       <option value="text">Text</option>
       <option value="dropdown">Dropdown</option>
@@ -11,38 +11,55 @@
       <option value="password">Password</option>
     </select>
 
-    <label class="label">Enter label value</label>
-    <input class="control" type="text" placeholder="Label" [(ngModel)]="newField.label">
+    <label class="label">{{constants.LabelMessage}}</label>
+    <input
+      class="control"
+      type="text"
+      placeholder="Label"
+      [(ngModel)]="newField.label"
+    />
     @if (labelError) {
-      <div class="error-message">{{ labelError }}</div>
+    <div class="error-message">{{ labelError }}</div>
     }
 
-    <label class="label">Enter name value</label>
-    <input class="control" type="text" placeholder="Name" [(ngModel)]="newField.name">
+    <label class="label">{{constants.NameMessage}}</label>
+    <input
+      class="control"
+      type="text"
+      placeholder="Name"
+      [(ngModel)]="newField.name"
+    />
     @if (nameError) {
-      <div class="error-message">{{ nameError }}</div>
-    }
-
-    @if (newField.type === 'dropdown') {
-      <div class="dropdown-block">
-        <label class="label">Enter Options</label>
-        <div class="option-row">
-          <input type="text" #optionInput placeholder="Option" class="control small" />
-          <button (click)="onAddOption(optionInput.value); optionInput.value=''" class="btn">Add Option</button>
-        </div>
-
-        @if (newField.options?.length) {
-          <p class="muted">Options added:</p>
-          <ul class="option-list">
-            @for (opt of newField.options; track $index) {
-              <li>{{ opt }}</li>
-            }
-          </ul>
-        }
-        @if (optionsError) {
-          <div class="error-message">{{ optionsError }}</div>
-        }
+    <div class="error-message">{{ nameError }}</div>
+    } @if (newField.type === 'dropdown') {
+    <div class="dropdown-block">
+      <label class="label">Enter Options</label>
+      <div class="option-row">
+        <input
+          type="text"
+          #optionInput
+          placeholder="Option"
+          class="control small"
+        />
+        <button
+          (click)="onAddOption(optionInput.value); optionInput.value = ''"
+          class="btn"
+        >
+          Add Option
+        </button>
       </div>
+
+      @if (newField.options?.length) {
+      <p>Options added:</p>
+      <ul class="option-list">
+        @for (opt of newField.options; track $index) {
+        <li>{{ opt }}</li>
+        }
+      </ul>
+      } @if (optionsError) {
+      <div class="error-message">{{ optionsError }}</div>
+      }
+    </div>
     }
 
     <div class="checkbox-row">
@@ -55,33 +72,34 @@
       <button (click)="saveForm()" class="btn">Save Form</button>
     </div>
 
-    <hr/>
+    <hr />
 
     <h3>Form Fields ({{ formFields().length }})</h3>
 
-@if (formFields().length) {
-  <div class="cards-container">
-    @for (field of formFields(); track $index) {
+    @if (formFields().length) {
+    <div class="cards-container">
+      @for (field of formFields(); track $index) {
       <div class="field-card">
-
         <span class="type-badge">{{ field.type }}</span>
 
-        <span class="field-label">Label: {{ field.label || '(No Label)' }} </span>
-        
+        <span class="field-label"
+          >Label: {{ field.label || "(No Label)" }}
+        </span>
 
-        <button class="delete-btn" (click)="deleteField($index)" title="Delete field">
+        <button
+          class="delete-btn"
+          (click)="deleteField($index)"
+          title="Delete field"
+        >
           delete
         </button>
       </div>
+      }
+    </div>
+    } @else {
+    <p>{{constants.FallBackMessage}}</p>
     }
   </div>
-} @else {
-  <p>No fields added yet.</p>
-}
 
-
-  </div>
-
-    <app-dynamic-form [config]="formFields()"></app-dynamic-form>
-
+  <app-dynamic-form [config]="formFields()"></app-dynamic-form>
 </div>

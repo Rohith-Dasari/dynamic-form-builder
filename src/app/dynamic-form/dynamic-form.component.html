@@ -44,7 +44,7 @@
                   <span>{{field.label}} is required</span>
                 }
                 @if (form.get(field.name)?.errors?.['email']) {
-                  <span>Please enter a valid email</span>
+                  <span>{{constants.InvalidEmail}}</span>
                 }
               </div>
             }
@@ -99,6 +99,6 @@
       <button type="submit" class="btn submit-btn">Submit</button>
     </form>
   } @else {
-    <p >No form fields configured yet. Please add fields in the Form Builder.</p>
+    <p>{{constants.FallbackMessage}}</p>
   }
 </div>

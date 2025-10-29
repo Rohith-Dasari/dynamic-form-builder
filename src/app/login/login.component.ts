@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { loginStrings } from '../constants/login-constants';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,8 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  readonly constants=loginStrings;
+
   loginForm: FormGroup;
   errorMessage = '';
   private authService=inject(AuthService);
@@ -30,7 +33,7 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
-  onLogin() {
+  onLogin(): void {
     this.errorMessage = '';
 
     if (this.loginForm.invalid) {

@@ -15,10 +15,10 @@
         @if (email?.touched && email?.invalid) {
           <div class="validation-error">
             @if (email?.errors?.['required']) {
-              <span>Please enter a valid email</span>
+              <span>{{constants.InvalidEmail}}</span>
             }
             @if (email?.errors?.['email']) {
-              <span>Please enter a valid email</span>
+              <span>{{constants.InvalidEmail}}</span>
             }
           </div>
         }
@@ -36,7 +36,7 @@
         @if (password?.touched && password?.invalid) {
           <div class="validation-error">
             @if (password?.errors?.['required']) {
-              <span>Password can't be empty</span>
+              <span>{{constants.PasswordError}}</span>
             }
           </div>
         }
