@@ -9,24 +9,20 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './dynamic-form.component.scss'
 })
 export class DynamicFormComponent {
-  config = input<any[]>([]);  // Using input signal instead of @Input
+  config = input<any[]>([]); 
   form: FormGroup = new FormGroup({});
   private currentUserRole: string | null = null;
 
   constructor() {
-    // Get user role once
     const currentUser = this.getCurrentUser();
     this.currentUserRole = currentUser?.role || null;
 
-    // Use effect to rebuild form whenever config changes
     effect(() => {
       const configValue = this.config();
       
       if (this.currentUserRole === 'admin') {
-        // Admin: use config from parent (signal)
         this.buildForm(configValue);
       } else {
-        // Customer: use localStorage on first load only
         const stored = localStorage.getItem('formConfig');
         const customerConfig = stored ? JSON.parse(stored) : [];
         this.buildForm(customerConfig);
@@ -40,19 +36,16 @@ export class DynamicFormComponent {
   }
 
   private buildForm(configData: any[]) {
-    // Create a completely new FormGroup to avoid stale control references
     const newFormGroup: any = {};
 
     if (configData && configData.length > 0) {
       configData.forEach(field => {
         const validators = [];
         
-        // Add required validator if field is required
         if (field.isRequired) {
           validators.push(Validators.required);
         }
         
-        // Add email validator for email type fields
         if (field.type === 'email') {
           validators.push(Validators.email);
         }
