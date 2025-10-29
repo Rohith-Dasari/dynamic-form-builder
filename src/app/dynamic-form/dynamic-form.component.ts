@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, effect } from '@angular/core';
+import { Component, input, effect, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -9,7 +9,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './dynamic-form.component.scss'
 })
 export class DynamicFormComponent {
-  config = input<any[]>([]); 
+  configInput = input<any[]>([], { alias: 'config' });  
+  config = signal<any[]>([]);  
   form: FormGroup = new FormGroup({});
   private currentUserRole: string | null = null;
 
@@ -18,13 +19,16 @@ export class DynamicFormComponent {
     this.currentUserRole = currentUser?.role || null;
 
     effect(() => {
-      const configValue = this.config();
+      const configValue = this.configInput();
       
       if (this.currentUserRole === 'admin') {
+        this.config.set(configValue);
         this.buildForm(configValue);
       } else {
+        
         const stored = localStorage.getItem('formConfig');
         const customerConfig = stored ? JSON.parse(stored) : [];
+        this.config.set(customerConfig);
         this.buildForm(customerConfig);
       }
     });
