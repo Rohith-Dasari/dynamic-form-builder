@@ -1,15 +1,15 @@
 @if (isAuthenticated()) {
-  <nav class="navbar">
-    <div class="navbar-left">
-      <a routerLink="/" class="logo">DFB</a>
-    </div>
-    <div class="navbar-right">
-      <span class="user-email">{{ userEmail() }}</span>
-      <button class="logout-btn" (click)="logout()">Logout</button>
-    </div>
-  </nav>
+<nav class="navbar">
+  <div class="navbar-left">
+    <a routerLink="/" class="logo">DFB</a>
+  </div>
+  <div class="navbar-right">
+    <span class="user-email">{{ userEmail() }}</span>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</nav>
 
-  <hr>
+<hr />
 }
 
 <router-outlet></router-outlet>

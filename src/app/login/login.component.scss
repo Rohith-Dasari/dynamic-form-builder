@@ -1,3 +1,5 @@
+@import "../constants/colors.scss";
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -7,10 +9,10 @@
 }
 
 .login-card {
-  background: white;
+  background: $bg-white;
   padding: 40px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px $shadow-color-medium;
   width: 100%;
   max-width: 400px;
 }
@@ -33,25 +35,25 @@ label {
 input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid $border-gray-lighter;
   border-radius: 4px;
   font-size: 14px;
   box-sizing: border-box;
 }
 
 input.error {
-  border-color: #dc2626;
+  border-color: $error-red;
 }
 
 .validation-error {
-  color: #dc2626;
+  color: $error-red;
   font-size: 13px;
   margin-top: 4px;
 }
 
 .error-message {
-  background: #fee;
-  color: #c33;
+  background: $bg-error-light;
+  color: $text-error-dark;
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 15px;
@@ -61,7 +63,7 @@ input.error {
 .login-btn {
   width: 100%;
   padding: 12px;
-  background: #2563eb;
+  background: $primary-blue;
   color: white;
   border: none;
   border-radius: 4px;
@@ -70,5 +72,5 @@ input.error {
 }
 
 .login-btn:hover {
-  background: #1d4ed8;
+  background: $primary-blue-hover;
 }

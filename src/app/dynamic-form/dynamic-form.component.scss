@@ -1,8 +1,10 @@
+@import '../constants/colors.scss';
+
 .form-container {
-  background: #fff;
+  background: $bg-white;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px $shadow-color;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -10,7 +12,7 @@
 h2 {
   margin-top: 0;
   margin-bottom: 20px;
-  color: #111827;
+  color: $text-dark;
   font-size: 24px;
 }
 
@@ -28,35 +30,35 @@ h2 {
 
 .field-label {
   font-weight: 600;
-  color: #374151;
+  color: $text-gray;
   font-size: 14px;
 }
 
 .required {
-  color: #dc2626;
+  color: $error-red;
   margin-left: 4px;
 }
 
 .control {
   padding: 10px 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid $border-gray;
   border-radius: 6px;
   font-size: 14px;
 
   &.error {
-    border-color: #dc2626;
+    border-color: $error-red;
   }
 }
 
 .validation-error {
-  color: #dc2626;
+  color: $error-red;
   font-size: 13px;
   margin-top: 4px;
 }
 
 select.control {
   cursor: pointer;
-  background-color: white;
+  background-color: $bg-white;
 }
 
 .checkbox-wrapper {
@@ -69,7 +71,7 @@ select.control {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: #2563eb;
+    accent-color: $accent-blue;
   }
 
   .checkbox-label {
@@ -82,22 +84,22 @@ select.control {
 .btn {
   padding: 10px 16px;
   border-radius: 6px;
-  border: 1px solid #d1d5db;
-  background: #f7f7f7;
+  border: 1px solid $border-gray;
+  background: $bg-gray-light;
   cursor: pointer;
   font-size: 15px;
   font-weight: 500;
 }
 
 .submit-btn {
-  background: #2563eb;
+  background: $primary-blue;
   color: white;
-  border-color: #2563eb;
+  border-color: $primary-blue;
   margin-top: 8px;
 
   &:hover {
-    background: #1d4ed8;
-    border-color: #1d4ed8;
+    background: $primary-blue-hover;
+    border-color: $primary-blue-hover;
   }
 }
 

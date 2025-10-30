@@ -1,5 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
@@ -9,19 +14,19 @@ import { loginStrings } from '../constants/login-constants';
   selector: 'app-login',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  readonly constants=loginStrings;
+  readonly constants = loginStrings;
 
   loginForm: FormGroup;
   errorMessage = '';
-  private authService=inject(AuthService);
+  private authService = inject(AuthService);
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
@@ -41,9 +46,12 @@ export class LoginComponent {
       return;
     }
 
-    const user = this.authService.login(this.email?.value, this.password?.value);
+    const user = this.authService.login(
+      this.email?.value,
+      this.password?.value
+    );
 
-    if(!user){
+    if (!user) {
       this.errorMessage = 'Invalid email or password';
     }
   }

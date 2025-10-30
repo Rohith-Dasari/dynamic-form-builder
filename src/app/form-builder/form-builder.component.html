@@ -2,7 +2,7 @@
   <div class="left">
     <h2>Form Builder</h2>
 
-    <label class="label">{{constants.DropdownMessage}}</label>
+    <label class="label">{{ constants.DropdownMessage }}</label>
     <select [(ngModel)]="newField.type" class="control">
       <option value="text">Text</option>
       <option value="dropdown">Dropdown</option>
@@ -11,7 +11,7 @@
       <option value="password">Password</option>
     </select>
 
-    <label class="label">{{constants.LabelMessage}}</label>
+    <label class="label">{{ constants.LabelMessage }}</label>
     <input
       class="control"
       type="text"
@@ -22,7 +22,7 @@
     <div class="error-message">{{ labelError }}</div>
     }
 
-    <label class="label">{{constants.NameMessage}}</label>
+    <label class="label">{{ constants.NameMessage }}</label>
     <input
       class="control"
       type="text"
@@ -33,7 +33,7 @@
     <div class="error-message">{{ nameError }}</div>
     } @if (newField.type === 'dropdown') {
     <div class="dropdown-block">
-      <label class="label">Enter Options</label>
+      <label class="label">{{constants.OptionsMessage}}</label>
       <div class="option-row">
         <input
           type="text"
@@ -97,7 +97,7 @@
       }
     </div>
     } @else {
-    <p>{{constants.FallBackMessage}}</p>
+    <p>{{ constants.FallBackMessage }}</p>
     }
   </div>
 

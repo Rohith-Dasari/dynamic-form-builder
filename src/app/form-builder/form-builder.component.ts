@@ -11,7 +11,7 @@ import { fbStrings } from '../constants/fb-constants';
   styleUrl: './form-builder.component.scss',
 })
 export class FormBuilderComponent {
-  readonly constants=fbStrings;
+  readonly constants = fbStrings;
   formFields = signal<any[]>([]);
   newField: any = {
     type: 'text',
