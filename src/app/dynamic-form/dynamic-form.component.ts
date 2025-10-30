@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { dfStrings } from '../constants/df-constants';
+import { Constants } from '../constants/constants';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -15,7 +15,7 @@ import { dfStrings } from '../constants/df-constants';
   styleUrl: './dynamic-form.component.scss',
 })
 export class DynamicFormComponent {
-  readonly constants = dfStrings;
+  readonly constants = Constants;
   configInput = input<any[]>([], { alias: 'config' });
   config = signal<any[]>([]);
   form: FormGroup = new FormGroup({});

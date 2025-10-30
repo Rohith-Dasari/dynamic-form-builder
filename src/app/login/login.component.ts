@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  AbstractControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
-import { loginStrings } from '../constants/login-constants';
+import { Constants } from '../constants/constants';
 
 @Component({
   selector: 'app-login',
@@ -17,24 +17,24 @@ import { loginStrings } from '../constants/login-constants';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  readonly constants = loginStrings;
+  readonly constants = Constants;
 
   loginForm: FormGroup;
   errorMessage = '';
   private authService = inject(AuthService);
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
 
-  get email() {
+  get email(): AbstractControl<any, any> | null {
     return this.loginForm.get('email');
   }
 
-  get password() {
+  get password(): AbstractControl<any, any> | null {
     return this.loginForm.get('password');
   }
 

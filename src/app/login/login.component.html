@@ -15,9 +15,9 @@
         @if (email?.touched && email?.invalid) {
         <div class="validation-error">
           @if (email?.errors?.['required']) {
-          <span>{{ constants.InvalidEmail }}</span>
+          <span>{{ constants.LoginInvalidEmail }}</span>
           } @if (email?.errors?.['email']) {
-          <span>{{ constants.InvalidEmail }}</span>
+          <span>{{ constants.LoginInvalidEmail }}</span>
           }
         </div>
         }
@@ -35,7 +35,7 @@
         @if (password?.touched && password?.invalid) {
         <div class="validation-error">
           @if (password?.errors?.['required']) {
-          <span>{{ constants.PasswordError }}</span>
+          <span>{{ constants.LoginPasswordError }}</span>
           }
         </div>
         }

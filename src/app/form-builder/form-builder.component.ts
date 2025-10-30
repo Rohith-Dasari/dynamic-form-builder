@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
-import { fbStrings } from '../constants/fb-constants';
+import { Constants } from '../constants/constants';
 
 @Component({
   selector: 'app-form-builder',
@@ -11,7 +11,7 @@ import { fbStrings } from '../constants/fb-constants';
   styleUrl: './form-builder.component.scss',
 })
 export class FormBuilderComponent {
-  readonly constants = fbStrings;
+  readonly constants = Constants;
   formFields = signal<any[]>([]);
   newField: any = {
     type: 'text',
