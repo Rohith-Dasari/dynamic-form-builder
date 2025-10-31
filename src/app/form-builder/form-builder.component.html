@@ -1,6 +1,6 @@
 <div class="container">
   <div class="left">
-    <h2>Form Builder</h2>
+    <h2>{{ constants.FBTitle }}</h2>
     <form #builderForm="ngForm" (ngSubmit)="saveForm()">
       <label class="label"
         >{{ constants.FBDropdownMessage }} <span>*</span>
@@ -17,7 +17,7 @@
       <input
         type="text"
         name="label"
-        placeholder="Label"
+        [placeholder]="constants.FBLabelPlaceholder"
         class="control"
         [(ngModel)]="newField.label"
         #labelField="ngModel"
@@ -31,7 +31,7 @@
       <input
         type="text"
         name="name"
-        placeholder="Name"
+        [placeholder]="constants.FBNamePlaceholder"
         class="control"
         [(ngModel)]="newField.name"
         #nameField="ngModel"
@@ -44,7 +44,7 @@
         <div class="option-row">
           <input
             type="text"
-            placeholder="Option"
+            [placeholder]="constants.FBOptionPlaceholder"
             #optionInput
             class="control small"
           />
@@ -53,12 +53,12 @@
             (click)="onAddOption(optionInput.value); optionInput.value = ''"
             class="btn"
           >
-            Add Option
+            {{ constants.FBAddOptionButton }}
           </button>
         </div>
 
         @if (newField.options?.length) {
-        <p>Options added:</p>
+        <p>{{ constants.FBOptionsAddedLabel }}</p>
         <ul class="option-list">
           @for (opt of newField.options; track $index) {
           <li>{{ opt }}</li>
@@ -77,20 +77,20 @@
           name="required"
           [(ngModel)]="newField.isRequired"
         />
-        <label for="required">required</label>
+        <label for="required">{{ constants.FBRequiredLabel }}</label>
       </div>
 
       <div class="actions">
         <button type="button" (click)="addField()" class="btn primary">
-          Add Field
+          {{ constants.FBAddFieldButton }}
         </button>
-        <button type="submit" class="btn">Save Form</button>
+        <button type="submit" class="btn">{{ constants.FBSaveFormButton }}</button>
       </div>
     </form>
 
     <hr />
 
-    <h3>Form Fields ({{ formFields().length }})</h3>
+    <h3>{{ constants.FBFormFieldsTitle }} ({{ formFields().length }})</h3>
 
     @if (formFields().length) {
     <div class="cards-container">
@@ -99,15 +99,15 @@
         <span class="type-badge">{{ field.type }}</span>
 
         <span class="field-label"
-          >Label: {{ field.label || "(No Label)" }}
+          >{{ constants.FBLabelPrefix }} {{ field.label || constants.FBNoLabelFallback }}
         </span>
 
         <button
           class="delete-btn"
           (click)="deleteField($index)"
-          title="Delete field"
+          [title]="constants.FBDeleteButtonTitle"
         >
-          delete
+          {{ constants.FBDeleteButton }}
         </button>
       </div>
       }

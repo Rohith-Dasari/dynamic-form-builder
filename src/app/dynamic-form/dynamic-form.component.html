@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h2>Generated Form</h2>
+  <h2>{{constants.DFTitle}}</h2>
 
   @if (config().length > 0) {
   <form [formGroup]="form" (ngSubmit)="submit()" class="dynamic-form">
@@ -28,7 +28,8 @@
         <span>{{ field.label }} is required</span>
         }
       </div>
-      } } @if (field.type === 'email') {
+      } } 
+      @if (field.type === 'email') {
       <input
         type="email"
         class="control"
@@ -38,15 +39,20 @@
           form.get(field.name)?.invalid && form.get(field.name)?.touched
         "
       />
+
       @if (form.get(field.name)?.invalid && form.get(field.name)?.touched) {
       <div class="validation-error">
         @if (form.get(field.name)?.errors?.['required']) {
         <span>{{ field.label }} is required</span>
-        } @if (form.get(field.name)?.errors?.['email']) {
+        } 
+        
+        @if (form.get(field.name)?.errors?.['email']) {
         <span>{{ constants.DFInvalidEmail }}</span>
         }
       </div>
-      } } @if (field.type === 'password') {
+      } } 
+      
+      @if (field.type === 'password') {
       <input
         type="password"
         class="control"
@@ -96,7 +102,7 @@
     </div>
     }
 
-    <button type="submit" class="btn submit-btn">Submit</button>
+    <button type="submit" class="btn submit-btn">{{constants.DFSubmit}}</button>
   </form>
   } @else {
   <p>{{ constants.DFFallbackMessage }}</p>

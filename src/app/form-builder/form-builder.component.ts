@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal} from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 import { Constants } from '../constants/constants';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-form-builder',
@@ -11,6 +14,7 @@ import { Constants } from '../constants/constants';
   styleUrl: './form-builder.component.scss',
 })
 export class FormBuilderComponent {
+  constructor(private dialog: MatDialog,private snackBar: MatSnackBar) {}
   readonly constants = Constants;
   formFields = signal<any[]>([]);
   newField: any = {
@@ -40,19 +44,19 @@ export class FormBuilderComponent {
     let hasError = false;
 
     if (!this.newField.label?.trim()) {
-      this.labelError = 'Label is required';
+      this.labelError = Constants.FBLabelRequiredError;
       hasError = true;
     }
 
     if (!this.newField.name?.trim()) {
-      this.nameError = 'Name is required';
+      this.nameError = Constants.FBNameRequiredError;
       hasError = true;
     } else {
       const nameExists = this.formFields().some(
         (field) => field.name === this.newField.name.trim()
       );
       if (nameExists) {
-        this.nameError = 'Name must be unique';
+        this.nameError = Constants.FBNameUniqueError;
         hasError = true;
       }
     }
@@ -61,7 +65,7 @@ export class FormBuilderComponent {
       this.newField.type === 'dropdown' &&
       this.newField.options.length === 0
     ) {
-      this.optionsError = 'Add at least one option';
+      this.optionsError = Constants.FBOptionsRequiredError;
       hasError = true;
     }
 
@@ -81,13 +85,21 @@ export class FormBuilderComponent {
 
   saveForm(): void {
     localStorage.setItem('formConfig', JSON.stringify(this.formFields()));
-    alert('Form saved successfully!');
+    this.snackBar.open('Form saved successfully!', 'OK', {
+      duration: 3000, 
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
+      panelClass: ['snackbar-success']
+    });
   }
 
   deleteField(index: number): void {
-    const field = this.formFields()[index];
-    if (confirm(`Delete field "${field.label || field.name}"?`)) {
-      this.formFields.update((fields) => fields.filter((_, i) => i !== index));
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirm') {
+        this.formFields().splice(index, 1);
+      }
+    });
   }
 }

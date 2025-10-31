@@ -1,0 +1,13 @@
+.delete-btn.confirm {
+  background-color: #d32f2f; /* deep red */
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: #b71c1c;
+  }
+}
