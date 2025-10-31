@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, signal} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 import { Constants } from '../constants/constants';

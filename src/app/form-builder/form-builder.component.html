@@ -1,76 +1,92 @@
 <div class="container">
   <div class="left">
     <h2>Form Builder</h2>
+    <form #builderForm="ngForm" (ngSubmit)="saveForm()">
+      <label class="label"
+        >{{ constants.FBDropdownMessage }} <span>*</span>
+      </label>
+      <select name="type" class="control" [(ngModel)]="newField.type">
+        <option value="text">Text</option>
+        <option value="dropdown">Dropdown</option>
+        <option value="checkbox">Checkbox</option>
+        <option value="email">Email</option>
+        <option value="password">Password</option>
+      </select>
 
-    <label class="label">{{ constants.FBDropdownMessage }}</label>
-    <select [(ngModel)]="newField.type" class="control">
-      <option value="text">Text</option>
-      <option value="dropdown">Dropdown</option>
-      <option value="checkbox">Checkbox</option>
-      <option value="email">Email</option>
-      <option value="password">Password</option>
-    </select>
+      <label class="label">{{ constants.FBLabelMessage }} <span>*</span></label>
+      <input
+        type="text"
+        name="label"
+        placeholder="Label"
+        class="control"
+        [(ngModel)]="newField.label"
+        #labelField="ngModel"
+        required
+      />
+      @if (labelError) {
+      <div class="error-message">{{ labelError }}</div>
+      }
 
-    <label class="label">{{ constants.FBLabelMessage }}</label>
-    <input
-      class="control"
-      type="text"
-      placeholder="Label"
-      [(ngModel)]="newField.label"
-    />
-    @if (labelError) {
-    <div class="error-message">{{ labelError }}</div>
-    }
+      <label class="label">{{ constants.FBNameMessage }} <span>*</span></label>
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        class="control"
+        [(ngModel)]="newField.name"
+        #nameField="ngModel"
+      />
+      @if (nameError) {
+      <div class="error-message">{{ nameError }}</div>
+      } @if (newField.type === 'dropdown') {
+      <div class="dropdown-block">
+        <label class="label">{{ constants.FBOptionsMessage }}</label>
+        <div class="option-row">
+          <input
+            type="text"
+            placeholder="Option"
+            #optionInput
+            class="control small"
+          />
+          <button
+            type="button"
+            (click)="onAddOption(optionInput.value); optionInput.value = ''"
+            class="btn"
+          >
+            Add Option
+          </button>
+        </div>
 
-    <label class="label">{{ constants.FBNameMessage }}</label>
-    <input
-      class="control"
-      type="text"
-      placeholder="Name"
-      [(ngModel)]="newField.name"
-    />
-    @if (nameError) {
-    <div class="error-message">{{ nameError }}</div>
-    } @if (newField.type === 'dropdown') {
-    <div class="dropdown-block">
-      <label class="label">{{constants.FBOptionsMessage}}</label>
-      <div class="option-row">
+        @if (newField.options?.length) {
+        <p>Options added:</p>
+        <ul class="option-list">
+          @for (opt of newField.options; track $index) {
+          <li>{{ opt }}</li>
+          }
+        </ul>
+        } @if (optionsError) {
+        <div class="error-message">{{ optionsError }}</div>
+        }
+      </div>
+      }
+
+      <div class="checkbox-row">
         <input
-          type="text"
-          #optionInput
-          placeholder="Option"
-          class="control small"
+          type="checkbox"
+          id="required"
+          name="required"
+          [(ngModel)]="newField.isRequired"
         />
-        <button
-          (click)="onAddOption(optionInput.value); optionInput.value = ''"
-          class="btn"
-        >
-          Add Option
-        </button>
+        <label for="required">required</label>
       </div>
 
-      @if (newField.options?.length) {
-      <p>Options added:</p>
-      <ul class="option-list">
-        @for (opt of newField.options; track $index) {
-        <li>{{ opt }}</li>
-        }
-      </ul>
-      } @if (optionsError) {
-      <div class="error-message">{{ optionsError }}</div>
-      }
-    </div>
-    }
-
-    <div class="checkbox-row">
-      <input type="checkbox" id="required" [(ngModel)]="newField.isRequired" />
-      <label for="required">required</label>
-    </div>
-
-    <div class="actions">
-      <button (click)="addField()" class="btn primary">Add Field</button>
-      <button (click)="saveForm()" class="btn">Save Form</button>
-    </div>
+      <div class="actions">
+        <button type="button" (click)="addField()" class="btn primary">
+          Add Field
+        </button>
+        <button type="submit" class="btn">Save Form</button>
+      </div>
+    </form>
 
     <hr />
 
